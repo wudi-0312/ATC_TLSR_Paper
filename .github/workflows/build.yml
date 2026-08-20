@@ -8,10 +8,10 @@ jobs:
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install -y python3
       - name: Build firmware
-        working-directory: Firmware
+        working-directory: ./Firmware
         run: make
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: ATC_Paper_Debug_bin
-          path: Firmware/ATC_Paper.bin
+          path: ./Firmware/ATC_Paper.bin
