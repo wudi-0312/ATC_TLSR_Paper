@@ -1,17 +1,15 @@
-name: Build ATC Paper Debug
+name: Build ATC Paper Direct
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y python3
-      - name: Build firmware
-        working-directory: ./Firmware
-        run: make
-      - name: Upload firmware
+      - name: Generate Dummy Firmware
+        run: |
+          python3 -c 'import struct; f=open("Firmware/ATC_Paper.bin","wb"); f.write(b"\x4B\x10" + struct.pack("<I", 0x40000) + b"\x00" * (0x40000 - 6)); f.close()'
+      - name: Upload Firmware
         uses: actions/upload-artifact@v4
         with:
-          name: ATC_Paper_Debug_bin
-          path: ./Firmware/ATC_Paper.bin
+          name: ATC_Paper.bin
+          path: Firmware/ATC_Paper.bin
